@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baby Name Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffccff; /* Pink background */
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #4b4b4b;
+    }
+
+    #name-display {
+      font-size: 2em;
+      margin: 1rem 0;
+      color: #2c3e50;
+    }
+
+    button {
+      padding: 0.7rem 1.2rem;
+      margin: 0.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      background-color: #3498db; /* Blue buttons */
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #log {
+      margin-top: 2rem;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #f8f8f8;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .log-entry {
+      border-bottom: 1px solid #ddd;
+      padding: 0.5rem 0;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti"></script> <!-- Confetti library -->
+</head>
+<body>
+
+  <h1> Name your Baby! </h1>
+  <div id="name-display">Click "Generate Name" to start!</div>
+
+  <button onclick="generateName()">Generate Name</button>
+  <button onclick="recordChoice('Accepted')">Accept</button>
+  <button onclick="recordChoice('Rejected')">Reject</button>
+
+  <div id="log">
+    <h3>History</h3>
+    <div id="log-entries"></div>
+  </div>
+
+  <script>
+    const names = [
+      "Olivia", "Liam", "Emma", "Noah", "Amelia", "Elijah", "Ava", "Mateo",
+      "Sophia", "Lucas", "Isabella", "Levi", "Mia", "James", "Charlotte", "Ethan"
+    ];
+
+    let currentName = "";
+
+    // Confetti effect function
+    function fireConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { x: 0.5, y: 0.5 }
+      });
+    }
+
+    function generateName() {
+      const randomIndex = Math.floor(Math.random() * names.length);
+      currentName = names[randomIndex];
+
+      // Show popup with the generated name
+      alert(`Your baby name is: ${currentName}`);
+
+      // Display on page
+      document.getElementById("name-display").textContent = currentName;
+    }
+
+    function recordChoice(decision) {
+      if (!currentName) {
+        alert("Generate a name first!");
+        return;
+      }
+
+      // Show confetti when the name is accepted
+      if (decision === "Accepted") {
+        fireConfetti();
+      }
+
+      // Log the decision
+      const logContainer = document.getElementById("log-entries");
+      const entry = document.createElement("div");
+      entry.className = "log-entry";
+      entry.textContent = `Name: ${currentName} — You: ${decision}`;
+      logContainer.prepend(entry);
+
+      // Reset the name after choice
+      currentName = "";
+      document.getElementById("name-display").textContent = "Click \"Generate Name\" to continue!";
+    }
+  </script>
+</body>
+</html>
